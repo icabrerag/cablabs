@@ -1,7 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import { LanguageToggle } from "@/components/layout/Navbar";
 import { useLanguage } from "@/components/providers/LanguageProvider";
 import { marvelVideos } from "@/data/marvelVideos";
@@ -10,6 +12,8 @@ import { flowMusic, flowSocials } from "@/data/socials";
 export function FlowExperience() {
   const { t } = useLanguage();
   const reduced = useReducedMotion();
+  const reelsTrack = useRef<HTMLDivElement>(null);
+  const moveReels = (direction: number) => reelsTrack.current?.scrollBy({ left: direction * 720, behavior: reduced ? "auto" : "smooth" });
   const intro = {
     initial: reduced ? false : { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -48,13 +52,21 @@ export function FlowExperience() {
         </section>
 
         <section className="flow-section road-section">
-          <div className="flow-heading"><span>02 / MARVEL</span><h2>{t.flow.road}</h2><p>{t.flow.roadCopy}</p></div>
-          <div className="reels-track">
+          <div className="road-heading-row">
+            <div className="flow-heading"><span>02 / MARVEL</span><h2>{t.flow.road}</h2><p>{t.flow.roadCopy}</p></div>
+            <div className="reel-controls" aria-label={t.flow.reviewNavigation}>
+              <button type="button" onClick={() => moveReels(-1)} aria-label={t.flow.previousReviews}>←</button>
+              <button type="button" onClick={() => moveReels(1)} aria-label={t.flow.nextReviews}>→</button>
+            </div>
+          </div>
+          <div className="reels-track" ref={reelsTrack}>
             {marvelVideos.map((video) => (
               <article className="reel-card" key={video.id}>
-                <div className="reel-embed">
-                  <iframe src={`${video.href}embed/`} title={`${t.flow.review} ${video.id}: ${video.title}`} loading="lazy" allowFullScreen />
-                </div>
+                <a className="reel-cover" href={video.href} target="_blank" rel="noopener noreferrer" aria-label={`${t.flow.watchReview}: ${video.title}`}>
+                  <Image src={video.cover} alt={`Portada de la reseña de ${video.title}`} fill sizes="(max-width: 640px) 280px, 330px" />
+                  <span className="reel-play" aria-hidden="true">▶</span>
+                  <span className="reel-open">{t.flow.watchReview} ↗</span>
+                </a>
                 <div className="reel-meta">
                   <div><small>{t.flow.review} #{String(video.id).padStart(2, "0")}</small><h3>{video.title}</h3><time dateTime={video.date}>{video.date}</time></div>
                   <a href={video.href} target="_blank" rel="noopener noreferrer" aria-label={`${video.title} — Instagram`}>Instagram ↗</a>
