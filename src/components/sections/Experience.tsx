@@ -1,0 +1,3 @@
+"use client";
+import Reveal from "@/components/Reveal";import{useLanguage}from"@/components/providers/LanguageProvider";
+export function Experience(){const{t}=useLanguage();return <section className="section-shell experience-strip" aria-labelledby="experience-title"><Reveal className="experience-title-wrap"><p className="mini-kicker">{t.experience.eyebrow}</p><h2 id="experience-title">{t.experience.title}<br/><span>{t.experience.date}</span></h2></Reveal><Reveal delay={.1} className="experience-copy"><p>{t.experience.copy}</p><ul>{t.experience.tags.map(tag=><li key={tag}>{tag}</li>)}</ul></Reveal></section>}

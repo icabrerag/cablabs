@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Ignacio Cabrera
 
-## Getting Started
+Portfolio personal construido con Next.js 16, React 19, TypeScript, Tailwind CSS 4 y Framer Motion. Usa App Router y genera una exportación estática, compatible con Vercel y GitHub Pages.
 
-First, run the development server:
+## Desarrollo local
+
+Requiere Node.js 20 o superior.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre `http://localhost:3000`. Para validar la versión de producción:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El build estático queda en `out/`. En GitHub Actions se aplica automáticamente el prefijo `/cablabs`; en Vercel se sirve desde la raíz.
 
-## Learn More
+## Formulario de contacto
 
-To learn more about Next.js, take a look at the following resources:
+El formulario usa [Web3Forms](https://web3forms.com/) directamente desde el navegador, por lo que no necesita un backend propio. Crea `.env.local` en la raíz:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=tu_access_key
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+La clave se incorpora durante el build. Configura la misma variable en Vercel antes de desplegar. Si no existe, el formulario continúa visible y muestra un mensaje controlado al intentar enviarlo.
 
-## Deploy on Vercel
+## Editar contenido
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Proyectos, tecnologías y enlaces sociales: `src/data/portfolio.ts`.
+- Textos de las secciones: `src/components/sections/`.
+- Estilos, responsive y mockups: `src/app/globals.css`.
+- Metadata SEO: `src/app/layout.tsx`.
+- Traducciones ES/EN: `src/data/i18n.ts`.
+- Redes profesionales y de Flow: `src/data/socials.ts`.
+- Serie Camino a Doomsday: `src/data/marvelVideos.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Los mockups de proyectos están hechos con HTML y CSS en `src/components/ui/ProjectVisual.tsx`; no contienen capturas ni información privada. Para usar screenshots reales, agrégalos a `public/projects/` y reemplaza cada `ProjectVisual` por `next/image`, indicando siempre `width`, `height` y un texto alternativo descriptivo.
+
+LinkedIn y GitHub se configuran en `src/data/socials.ts`.
+
+La ruta `/flow` muestra los reels de Marvel mediante embeds oficiales de Instagram con carga diferida. Sus títulos, fechas y URLs se administran en `src/data/marvelVideos.ts`.
+
+## Despliegue en Vercel
+
+Importa el repositorio en Vercel, conserva los comandos detectados por Next.js y agrega la variable del formulario. No se necesitan servicios adicionales ni cambios en la configuración.
