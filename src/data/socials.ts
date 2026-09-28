@@ -5,7 +5,7 @@ export const professionalSocials = {
 
 export const flowMusic = {
   title: "Quiero Verte",
-  artist: "Flowcl",
+  artist: "flow.tkm",
   year: "2024",
   spotify: "https://open.spotify.com/track/3xywESBG8dUzbuL5pJzQPv",
   embed: "https://open.spotify.com/embed/track/3xywESBG8dUzbuL5pJzQPv?utm_source=generator&theme=0",
